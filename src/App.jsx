@@ -20,6 +20,7 @@ class App extends React.Component {
 		};
 
 		this.onLoginSuccess = this.onLoginSuccess.bind(this);
+		this.onLogout = this.onLogout.bind(this);
 	}
 
 	async componentDidMount() {
@@ -42,6 +43,16 @@ class App extends React.Component {
 				authedUser: data,
 			};
 		});
+	}
+
+	onLogout() {
+		this.setState(() => {
+			return {
+				authedUser: null,
+			};
+		});
+
+		putAccessToken('');
 	}
 
 	render() {
@@ -69,7 +80,7 @@ class App extends React.Component {
 
 		return (
 			<>
-				<Header />
+				<Header logout={this.onLogout} name={this.state.authedUser.name} />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/archives" element={<Archived />} />
