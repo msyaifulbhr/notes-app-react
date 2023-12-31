@@ -3,11 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import PropTypes from "prop-types"
 import NoteList from "../components/NoteList"
 import SearchBar from "../components/SearchBar"
-import {
-	deleteNote,
-	getArchivedNotes,
-	unarchiveNote,
-} from "../utils/local-data"
+import { getArchivedNotes, deleteNote, unArchiveNote  } from "../utils/api"
 
 function ArchivedPageWrapper() {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -25,7 +21,7 @@ class Archived extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			notes: getArchivedNotes(),
+			notes: [],
 			keyword: props.defaultKeyword || "",
 		}
 		this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
@@ -33,20 +29,36 @@ class Archived extends React.Component {
 		this.searchHandler = this.searchHandler.bind(this)
 	}
 
-	deleteNoteHandler(id) {
-		deleteNote(id)
-		this.setState({
-			...this.state,
-			notes: getArchivedNotes(),
+	async componentDidMount() {
+		const { data } = await getArchivedNotes();
+
+		this.setState(() => {
+			return {
+				notes: data
+			}
 		})
 	}
 
-	unarchiveNoteHandler(id) {
-		unarchiveNote(id)
-		this.setState({
-			...this.state,
-			notes: getArchivedNotes(),
-		})
+	async deleteNoteHandler(id) {
+		await deleteNote(id);
+
+		const { data } = await getArchivedNotes();
+		this.setState(() => {
+			return {
+				notes: data
+			};
+		});
+	}
+
+	async unarchiveNoteHandler(id) {
+		await unArchiveNote(id);
+
+		const { data } = await getArchivedNotes();
+		this.setState(() => {
+			return {
+				notes: data
+			};
+		});
 	}
 
 	searchHandler(keyword) {

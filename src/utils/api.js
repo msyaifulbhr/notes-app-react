@@ -113,6 +113,48 @@ async function deleteNote(id) {
   return { error: false };
 }
 
+async function archiveNote(id) {
+  const response = await fetchWithToken(`${BASE_URL}/notes/${id}/archive`, {
+    method: 'POST',
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    alert(responseJson.message);
+    return { error: true };
+  }
+
+  return { error: false };
+}
+
+async function getArchivedNotes() {
+  const response = await fetchWithToken(`${BASE_URL}/notes/archived`);
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    alert(responseJson.message);
+    return { error: true, data: [] };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
+async function unArchiveNote(id) {
+  const response = await fetchWithToken(`${BASE_URL}/notes/${id}/unarchive`, {
+    method: 'POST',
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    alert(responseJson.message);
+    return { error: true };
+  }
+
+  return { error: false };
+}
+
 export { 
   getAccessToken,
   putAccessToken,
@@ -121,5 +163,8 @@ export {
   getUserLogged,
   addNote,
   getNotes,
-  deleteNote
+  deleteNote,
+  archiveNote,
+  getArchivedNotes,
+  unArchiveNote,
 }

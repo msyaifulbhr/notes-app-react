@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import PropTypes from "prop-types"
 import NoteList from "../components/NoteList"
 import SearchBar from "../components/SearchBar"
-import { getNotes, deleteNote } from "../utils/api"
+import { getNotes, deleteNote, archiveNote } from "../utils/api"
 
 function HomePageWrapper() {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -48,20 +48,15 @@ class Home extends React.Component {
 		});
 	}
 
-	// deleteNoteHandler(id) {
-	// 	deleteNote(id)
-	// 	this.setState({
-	// 		...this.state,
-	// 		notes: getActiveNotes(),
-	// 	})
-	// }
+	async archiveNoteHandler(id) {
+		await archiveNote(id);
 
-	archiveNoteHandler(id) {
-		archiveNote(id)
-		this.setState({
-			...this.state,
-			notes: getActiveNotes(),
-		})
+		const { data } = await getNotes();
+		this.setState(() => {
+			return {
+				notes: data
+			};
+		});
 	}
 
 	searchHandler(keyword) {
