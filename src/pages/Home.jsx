@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import PropTypes from "prop-types"
 import NoteList from "../components/NoteList"
 import SearchBar from "../components/SearchBar"
-import { archiveNote, deleteNote, getActiveNotes } from "../utils/local-data"
+import { getNotes, deleteNote } from "../utils/api"
 
 function HomePageWrapper() {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -19,7 +19,7 @@ class Home extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			notes: getActiveNotes(),
+			notes: [],
 			keyword: props.defaultKeyword || "",
 		}
 		this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
@@ -27,13 +27,34 @@ class Home extends React.Component {
 		this.searchHandler = this.searchHandler.bind(this)
 	}
 
-	deleteNoteHandler(id) {
-		deleteNote(id)
-		this.setState({
-			...this.state,
-			notes: getActiveNotes(),
+	async componentDidMount() {
+		const { data } = await getNotes();
+
+		this.setState(() => {
+			return {
+				notes: data
+			}
 		})
 	}
+
+	async deleteNoteHandler(id) {
+		await deleteNote(id);
+
+		const { data } = await getNotes();
+		this.setState(() => {
+			return {
+				notes: data
+			};
+		});
+	}
+
+	// deleteNoteHandler(id) {
+	// 	deleteNote(id)
+	// 	this.setState({
+	// 		...this.state,
+	// 		notes: getActiveNotes(),
+	// 	})
+	// }
 
 	archiveNoteHandler(id) {
 		archiveNote(id)

@@ -30,6 +30,10 @@ a {
 	text-decoration: none;
 }
 
+section p a {
+	color: #c49000;
+}
+
 nav a {
 	margin-right: 20px;
 }

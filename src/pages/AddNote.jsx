@@ -1,21 +1,21 @@
 import React from "react"
 import NoteCreateForm from "../components/NoteCreateForm"
 import PropTypes from "prop-types";
-import { addNote } from "../utils/local-data"
+import { addNote } from "../utils/api"
 import { useNavigate } from "react-router-dom"
 
 
 function AddNote() {
 	const navigate = useNavigate();
 
-	function addNoteHandler({ title, body }) {
-		addNote({ title, body });
+	async function onAddNoteHandler(note) {
+		await addNote(note);
 		navigate('/');
 	}
 
 	return (
 		<div className="add-form">
-			<NoteCreateForm submitHandler={addNoteHandler} />
+			<NoteCreateForm submitHandler={onAddNoteHandler} />
 		</div>
 	)
 }
