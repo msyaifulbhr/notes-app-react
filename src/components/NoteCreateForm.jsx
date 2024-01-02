@@ -1,6 +1,6 @@
-import React from "react"
-import NoteInput from "./NoteInput"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
+import NoteInput from './NoteInput';
 
 class NoteCreateForm extends React.Component {
 	constructor(props) {
@@ -82,4 +82,4 @@ NoteCreateForm.propTypes = {
 	submitHandler: PropTypes.func.isRequired,
 }
 
-export default NoteCreateForm
+export default NoteCreateForm;
