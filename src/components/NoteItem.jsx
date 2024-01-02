@@ -1,7 +1,7 @@
-import React from "react"
-import NoteItemContent from "./NoteItemContent"
-import NoteButtons from "./NoteButtons"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
+import NoteItemContent from './NoteItemContent';
+import NoteButtons from './NoteButtons';
 
 function NoteItem({ note, archiveHandler, deleteHandler }) {
 	return (
@@ -27,4 +27,4 @@ NoteItem.propTypes = {
 	deleteHandler: PropTypes.func.isRequired,
 }
 
-export default NoteItem
+export default NoteItem;

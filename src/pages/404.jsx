@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 function PageNotFount() {
 	return (
@@ -9,4 +9,4 @@ function PageNotFount() {
 	)
 }
 
-export default PageNotFount
+export default PageNotFount;

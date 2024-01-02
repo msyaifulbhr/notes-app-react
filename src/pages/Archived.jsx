@@ -1,9 +1,9 @@
-import React from "react"
-import { useSearchParams } from "react-router-dom"
-import PropTypes from "prop-types"
-import NoteList from "../components/NoteList"
-import SearchBar from "../components/SearchBar"
-import { getArchivedNotes, deleteNote, unArchiveNote  } from "../utils/api"
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import NoteList from '../components/NoteList';
+import SearchBar from '../components/SearchBar';
+import { getArchivedNotes, deleteNote, unArchiveNote  } from '../utils/api';
 
 function ArchivedPageWrapper() {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -97,4 +97,4 @@ Archived.propTypes = {
     keywordChange: PropTypes.func.isRequired,
 }
 
-export default ArchivedPageWrapper
+export default ArchivedPageWrapper;

@@ -1,5 +1,5 @@
-import React from "react"
-import Navigation from "./Navigation"
+import React from 'react';
+import Navigation from './Navigation';
 
 function Header({ logout, name }) {
 	return (
@@ -10,4 +10,4 @@ function Header({ logout, name }) {
 	)
 }
 
-export default Header
+export default Header;

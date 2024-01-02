@@ -1,9 +1,9 @@
-import React from "react"
-import { useSearchParams } from "react-router-dom"
-import PropTypes from "prop-types"
-import NoteList from "../components/NoteList"
-import SearchBar from "../components/SearchBar"
-import { getNotes, deleteNote, archiveNote } from "../utils/api"
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import NoteList from '../components/NoteList';
+import SearchBar from '../components/SearchBar';
+import { getNotes, deleteNote, archiveNote } from '../utils/api';
 
 function HomePageWrapper() {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -94,4 +94,4 @@ Home.propTypes = {
 	keywordChange: PropTypes.func.isRequired,
 }
 
-export default HomePageWrapper
+export default HomePageWrapper;

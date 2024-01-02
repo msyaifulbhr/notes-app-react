@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { useParams } from "react-router-dom"
-import { getNote } from "../utils/local-data"
-import { showFormattedDate } from "../utils"
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { getNote } from '../utils/local-data';
+import { showFormattedDate } from '../utils';
 
 function DetailNoteWrapper() {
 	const { id } = useParams()
@@ -34,4 +34,4 @@ DetailNote.propType = {
 	id: PropTypes.string.isRequired
 }
 
-export default DetailNoteWrapper
+export default DetailNoteWrapper;

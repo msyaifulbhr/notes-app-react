@@ -1,8 +1,8 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
-import { FiEye, FiArchive } from "react-icons/fi";
-import { MdDelete, MdCancel  } from "react-icons/md";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { FiEye, FiArchive } from 'react-icons/fi';
+import { MdDelete, MdCancel  } from 'react-icons/md';
 
 function NoteButton({ id, archived, archiveHandler, deleteHandler }) {
 	return (
@@ -35,4 +35,4 @@ NoteButton.propTypes = {
 	deleteHandler: PropTypes.func.isRequired,
 }
 
-export default NoteButton
+export default NoteButton;

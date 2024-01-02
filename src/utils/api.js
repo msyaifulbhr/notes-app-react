@@ -1,3 +1,5 @@
+import { Await } from "react-router-dom";
+
 const BASE_URL = 'https://notes-api.dicoding.dev/v1';
 
 function getAccessToken() {
@@ -155,6 +157,18 @@ async function unArchiveNote(id) {
   return { error: false };
 }
 
+async function getSingleNote(id) {
+  const response = await fetchWithToken (`${BASE_URL}/notes/${id}`);
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    alert(responseJson.message);
+    return { error: true };
+  }
+
+  return { error: false };
+}
+
 export { 
   getAccessToken,
   putAccessToken,
@@ -167,4 +181,5 @@ export {
   archiveNote,
   getArchivedNotes,
   unArchiveNote,
+  getSingleNote
 }

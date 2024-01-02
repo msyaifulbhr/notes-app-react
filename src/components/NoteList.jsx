@@ -1,6 +1,6 @@
-import React from "react"
-import NoteItem from "./NoteItem"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
+import NoteItem from './NoteItem';
 
 function NoteList({ notes, archiveHandler, deleteHandler }) {
 	return (
@@ -33,4 +33,4 @@ NoteList.propTypes = {
 	deleteHandler: PropTypes.func.isRequired,
 }
 
-export default NoteList
+export default NoteList;

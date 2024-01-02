@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { showFormattedDate } from "../utils"
+import React from 'react';
+import PropTypes from 'prop-types';
+import { showFormattedDate } from '../utils';
 
 function NoteItemContent({ title, body, createdAt }) {
 	return (
@@ -18,4 +18,4 @@ NoteItemContent.propTypes = {
 	createdAt: PropTypes.string.isRequired,
 }
 
-export default NoteItemContent
+export default NoteItemContent;

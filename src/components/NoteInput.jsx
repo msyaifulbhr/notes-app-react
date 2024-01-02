@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function NoteInput({ handler, placeholder, type, value, style }) {
 	return (
@@ -33,4 +33,4 @@ NoteInput.propTypes = {
 	style: PropTypes.object,
 }
 
-export default NoteInput
+export default NoteInput;

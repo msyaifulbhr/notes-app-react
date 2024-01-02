@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link, useNavigate } from 'react-router-dom'
-import { FiLogOut } from 'react-icons/fi'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiLogOut } from 'react-icons/fi';
 
 function Navigation({ logout, name }) {
 	return (
 		<nav>
-			<Link to="/">Home</Link>
+			<Link to="/">Beranda</Link>
 			<Link to="/archives">Arsip</Link>
 			<Link to="/notes/new">Tambah</Link>
 			<button onClick={logout}>{name} <FiLogOut /></button>
@@ -19,4 +19,4 @@ Navigation.propTypes = {
 	name: PropTypes.string.isRequired,
 }
 
-export default Navigation
+export default Navigation;
