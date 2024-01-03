@@ -8,7 +8,7 @@ function NoteButton({ id, archived, archiveHandler, deleteHandler }) {
 	return (
 		<section className="note-item__action">
 			<button type="button" className="note-item__detail-button">
-				<Link to={`/detail/${id}`}><FiEye /></Link>
+				<Link to={`/notes/${id}`}><FiEye /></Link>
 			</button>
 			<button
 				type="button"
