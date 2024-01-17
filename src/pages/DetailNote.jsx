@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { getNote } from '../utils/local-data';
-import { showFormattedDate } from '../utils';
+import { getSingleNote } from '../utils/api';
+import { showFormattedDate } from '../utils/index';
 
 function DetailNoteWrapper() {
 	const { id } = useParams()
@@ -14,12 +14,12 @@ class DetailNote extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			notes: getNote(props.id),
+			notes: getSingleNote(props.id),
 		}
 	}
 
 	render() {
-		const { id, title, createdAt, body } = this.state.notes
+		const { title, createdAt, body } = this.state.notes
 		return (
 			<div className="detail-page">
 				<p className="detail-page__title">{title}</p>

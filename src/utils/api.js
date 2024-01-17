@@ -163,10 +163,10 @@ async function getSingleNote(id) {
 
   if (responseJson.status !== 'success') {
     alert(responseJson.message);
-    return { error: true };
+    return { error: true, data: null };
   }
 
-  return { error: false };
+  return { error: false, data: responseJson.data };
 }
 
 export { 

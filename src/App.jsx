@@ -98,7 +98,7 @@ class App extends React.Component {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/archives" element={<Archived />} />
-					<Route path="/detail/:id" element={<DetailNote />} />
+					<Route path="/notes/:id" element={<DetailNote />} />
 					<Route path="/notes/new" element={<AddNote />} />
 					<Route path="/*" element={<PageNotFount />} />
 				</Routes>
