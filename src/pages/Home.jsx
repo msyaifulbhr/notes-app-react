@@ -1,81 +1,82 @@
-import React from "react"
-import { useSearchParams } from "react-router-dom"
-import PropTypes from "prop-types"
-import NoteList from "../components/NoteList"
-import SearchBar from "../components/SearchBar"
-import { archiveNote, deleteNote, getActiveNotes } from "../utils/local-data"
+
+import React, { useState, useEffect, useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import NoteList from '../components/NoteList';
+import SearchBar from '../components/SearchBar';
+import { getActiveNotes, deleteNote, archiveNote } from '../utils/api';
+import { LanguageContext } from '../contexts/LanguageContext';
+import locale from '../utils/locale';
 
 function HomePageWrapper() {
-	const [searchParams, setSearchParams] = useSearchParams()
-	const keyword = searchParams.get("keyword")
-	function changeSearchParams(keyword) {
-		setSearchParams({ keyword })
-	}
+  const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword');
 
-	return <Home defaultKeyword={keyword} keywordChange={changeSearchParams} />
+  function changeSearchParams(keyword) {
+    setSearchParams({ keyword });
+  }
+
+  return <Home defaultKeyword={keyword} keywordChange={changeSearchParams} />;
 }
 
-class Home extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			notes: getActiveNotes(),
-			keyword: props.defaultKeyword || "",
-		}
-		this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
-		this.archiveNoteHandler = this.archiveNoteHandler.bind(this)
-		this.searchHandler = this.searchHandler.bind(this)
-	}
+function Home({ defaultKeyword, keywordChange }) {
+  const { language } = useContext(LanguageContext);
+  const [notes, setNotes] = useState([]);
+  const [keyword, setKeyword] = useState(defaultKeyword || '');
 
-	deleteNoteHandler(id) {
-		deleteNote(id)
-		this.setState({
-			...this.state,
-			notes: getActiveNotes(),
-		})
-	}
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const { data } = await getActiveNotes();
+      setNotes(data);
+    };
+    fetchNotes();
+  }, []);
 
-	archiveNoteHandler(id) {
-		archiveNote(id)
-		this.setState({
-			...this.state,
-			notes: getActiveNotes(),
-		})
-	}
+  const deleteNoteHandler = async (id) => {
+    await deleteNote(id);
+    const { data } = await getActiveNotes();
+    setNotes(data);
+  };
 
-	searchHandler(keyword) {
-		this.setState(() => {
-			return {
-				keyword,
-			}
-		})
+  const archiveNoteHandler = async (id) => {
+    await archiveNote(id);
+    const { data } = await getActiveNotes();
+    setNotes(data);
+  };
 
-		this.props.keywordChange(keyword)
-	}
+  const searchHandler = (keyword) => {
+    setKeyword(keyword);
+    keywordChange(keyword);
+  };
 
-	render() {
-		const notes = this.state.notes.filter((note) => {
-			return note.title.toLowerCase().includes(this.state.keyword.toLowerCase())
-		})
-		return (
-			<>
-				<SearchBar
-					keyword={this.state.keyword}
-					keywordChange={this.searchHandler}
-				/>
-				<NoteList
-					notes={notes}
-					archiveHandler={this.archiveNoteHandler}
-					deleteHandler={this.deleteNoteHandler}
-				/>
-			</>
-		)
-	}
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(keyword.toLowerCase())
+  );
+
+  return (
+    <>
+      <h2>{locale[language].home}</h2>
+      <SearchBar
+        keyword={keyword}
+        keywordChange={searchHandler}
+        placeholder={locale[language].searchPlaceholder}
+      />
+      {filteredNotes.length > 0 ? (
+        <NoteList
+          notes={filteredNotes}
+          archiveHandler={archiveNoteHandler}
+          deleteHandler={deleteNoteHandler}
+        />
+      ) : (
+        <p>{locale[language].noActiveNotes}</p>
+      )}
+    </>
+  );
 }
 
 Home.propTypes = {
-	defaultKeyword: PropTypes.string,
-	keywordChange: PropTypes.func.isRequired,
-}
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func.isRequired,
+};
 
-export default HomePageWrapper
+export default HomePageWrapper;

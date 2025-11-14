@@ -1,88 +1,82 @@
-import React from "react"
-import { useSearchParams } from "react-router-dom"
-import PropTypes from "prop-types"
-import NoteList from "../components/NoteList"
-import SearchBar from "../components/SearchBar"
-import {
-	deleteNote,
-	getArchivedNotes,
-	unarchiveNote,
-} from "../utils/local-data"
+
+import React, { useState, useEffect, useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import NoteList from '../components/NoteList';
+import SearchBar from '../components/SearchBar';
+import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/api';
+import { LanguageContext } from '../contexts/LanguageContext';
+import locale from '../utils/locale';
 
 function ArchivedPageWrapper() {
-	const [searchParams, setSearchParams] = useSearchParams()
-	const keyword = searchParams.get("keyword")
-	function changeSearchParams(keyword) {
-		setSearchParams({ keyword })
-	}
+  const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword');
 
-	return (
-		<Archived defaultKeyword={keyword} keywordChange={changeSearchParams} />
-	)
+  function changeSearchParams(keyword) {
+    setSearchParams({ keyword });
+  }
+
+  return <Archived defaultKeyword={keyword} keywordChange={changeSearchParams} />;
 }
 
-class Archived extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			notes: getArchivedNotes(),
-			keyword: props.defaultKeyword || "",
-		}
-		this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
-		this.unarchiveNoteHandler = this.unarchiveNoteHandler.bind(this)
-		this.searchHandler = this.searchHandler.bind(this)
-	}
+function Archived({ defaultKeyword, keywordChange }) {
+  const { language } = useContext(LanguageContext);
+  const [notes, setNotes] = useState([]);
+  const [keyword, setKeyword] = useState(defaultKeyword || '');
 
-	deleteNoteHandler(id) {
-		deleteNote(id)
-		this.setState({
-			...this.state,
-			notes: getArchivedNotes(),
-		})
-	}
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const { data } = await getArchivedNotes();
+      setNotes(data);
+    };
+    fetchNotes();
+  }, []);
 
-	unarchiveNoteHandler(id) {
-		unarchiveNote(id)
-		this.setState({
-			...this.state,
-			notes: getArchivedNotes(),
-		})
-	}
+  const deleteNoteHandler = async (id) => {
+    await deleteNote(id);
+    const { data } = await getArchivedNotes();
+    setNotes(data);
+  };
 
-	searchHandler(keyword) {
-		this.setState(() => {
-			return {
-				keyword,
-			}
-		})
+  const unarchiveNoteHandler = async (id) => {
+    await unarchiveNote(id);
+    const { data } = await getArchivedNotes();
+    setNotes(data);
+  };
 
-		this.props.keywordChange(keyword)
-	}
+  const searchHandler = (keyword) => {
+    setKeyword(keyword);
+    keywordChange(keyword);
+  };
 
-	render() {
-		const notes = this.state.notes.filter((note) => {
-			return note.title.toLowerCase().includes(this.state.keyword.toLowerCase())
-		})
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(keyword.toLowerCase())
+  );
 
-		return (
-			<>
-				<SearchBar
-					keyword={this.state.keyword}
-					keywordChange={this.searchHandler}
-				/>
-				<NoteList
-					notes={notes}
-					archiveHandler={this.unarchiveNoteHandler}
-					deleteHandler={this.deleteNoteHandler}
-				/>
-			</>
-		)
-	}
+  return (
+    <>
+      <h2>{locale[language].archived}</h2>
+      <SearchBar
+        keyword={keyword}
+        keywordChange={searchHandler}
+        placeholder={locale[language].searchPlaceholder} 
+      />
+      {filteredNotes.length > 0 ? (
+        <NoteList
+          notes={filteredNotes}
+          archiveHandler={unarchiveNoteHandler}
+          deleteHandler={deleteNoteHandler}
+        />
+      ) : (
+        <p>{locale[language].noArchivedNotes}</p>
+      )}
+    </>
+  );
 }
 
 Archived.propTypes = {
-	defaultKeyword: PropTypes.string,
-    keywordChange: PropTypes.func.isRequired,
-}
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func.isRequired,
+};
 
-export default ArchivedPageWrapper
+export default ArchivedPageWrapper;

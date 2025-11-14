@@ -1,27 +1,24 @@
-import React from "react"
-import PropTypes from "prop-types"
 
-function SearchBar({ keyword, keywordChange }) {
-	return (
-		<>
-			<div className="search-bar__title">
-				<h2>Cari Disini</h2>
-			</div>
-			<div className="search-bar">
-				<input
-					type="text"
-					placeholder="Cari berdasarkan judul"
-					value={keyword}
-					onChange={(event) => keywordChange(event.target.value)}
-				/>
-			</div>
-		</>
-	)
+import React from 'react';
+import PropTypes from 'prop-types';
+
+function SearchBar({ keyword, keywordChange, placeholder }) {
+  return (
+    <div className='search-bar'>
+      <input
+        type='text'
+        placeholder={placeholder}
+        value={keyword}
+        onChange={(event) => keywordChange(event.target.value)}
+      />
+    </div>
+  );
 }
 
-SearchBar.propType = {
-	keyword: PropTypes.string.isRequired,
-	keywordChange: PropTypes.func.isRequired,
-}
+SearchBar.propTypes = {
+  keyword: PropTypes.string.isRequired,
+  keywordChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+};
 
-export default SearchBar
+export default SearchBar;

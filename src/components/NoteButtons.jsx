@@ -1,14 +1,24 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import PropTypes from "prop-types"
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import { FiEye, FiArchive } from "react-icons/fi";
-import { MdDelete, MdCancel  } from "react-icons/md";
+import { MdDelete, MdCancel } from "react-icons/md";
 
 function NoteButton({ id, archived, archiveHandler, deleteHandler }) {
+	const navigate = useNavigate();
+
+	const detailClickHandler = () => {
+		navigate(`/notes/${id}`);
+	};
+
 	return (
 		<section className="note-item__action">
-			<button type="button" className="note-item__detail-button">
-				<Link to={`/detail/${id}`}><FiEye /></Link>
+			<button
+				type="button"
+				onClick={detailClickHandler}
+				className="note-item__detail-button"
+			>
+				<FiEye />
 			</button>
 			<button
 				type="button"
@@ -25,7 +35,7 @@ function NoteButton({ id, archived, archiveHandler, deleteHandler }) {
 				<MdDelete />
 			</button>
 		</section>
-	)
+	);
 }
 
 NoteButton.propTypes = {
@@ -33,6 +43,6 @@ NoteButton.propTypes = {
 	archived: PropTypes.bool.isRequired,
 	archiveHandler: PropTypes.func.isRequired,
 	deleteHandler: PropTypes.func.isRequired,
-}
+};
 
-export default NoteButton
+export default NoteButton;
